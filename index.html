@@ -1,0 +1,137 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="English practice quizzes for Grades 4–6.">
+  <title>English Practice Quiz | Grades 4–6</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <header class="site-header">
+    <div class="brand-mark" aria-hidden="true">E</div>
+    <div>
+      <p class="eyebrow">SUPPLEMENTARY LEARNING</p>
+      <h1>English Practice Quiz</h1>
+      <p class="subhead">Grades 4–6 · Randomized question bank</p>
+    </div>
+  </header>
+
+  <main class="container">
+    <section id="setup-screen" class="panel">
+      <div class="section-heading">
+        <div>
+          <p class="eyebrow">SET UP YOUR SESSION</p>
+          <h2>Ready to practice?</h2>
+          <p class="muted">Choose your grade, difficulty, and timer. Each session draws a random set from the CSV question bank.</p>
+        </div>
+        <div class="question-limit"><strong>50</strong><span>questions max</span></div>
+      </div>
+
+      <form id="setup-form">
+        <div class="form-grid">
+          <label>
+            <span>Grade</span>
+            <select id="grade" required>
+              <option value="4">Grade 4</option>
+              <option value="5">Grade 5</option>
+              <option value="6">Grade 6</option>
+              <option value="all">Grade 4–6</option>
+            </select>
+          </label>
+          <label>
+            <span>Difficulty</span>
+            <select id="difficulty" required>
+              <option value="all">All difficulties</option>
+              <option value="Easy">Easy</option>
+              <option value="Medium">Medium</option>
+              <option value="Hard">Hard</option>
+            </select>
+          </label>
+          <label>
+            <span>Number of questions</span>
+            <select id="question-count" required>
+              <option value="10">10 questions</option>
+              <option value="20">20 questions</option>
+              <option value="30" selected>30 questions</option>
+              <option value="40">40 questions</option>
+              <option value="50">50 questions</option>
+            </select>
+          </label>
+          <label>
+            <span>Timer mode</span>
+            <select id="timer-mode" required>
+              <option value="none">No timer</option>
+              <option value="overall">Overall quiz timer</option>
+              <option value="per-question">Per-question timer</option>
+            </select>
+          </label>
+          <label class="duration-field" id="duration-field">
+            <span>Total quiz duration</span>
+            <select id="duration" required>
+              <option value="20">20 minutes — Standard</option>
+              <option value="30">30 minutes — Relaxed</option>
+              <option value="15">15 minutes — Fast Paced</option>
+              <option value="10">10 minutes — Speed Challenge</option>
+            </select>
+          </label>
+        </div>
+        <p id="timer-hint" class="hint">Choose “No timer” to practice at your own pace.</p>
+        <p id="bank-status" class="status" role="status">Loading question bank…</p>
+        <button class="primary-button" id="start-button" type="submit" disabled>Loading questions…</button>
+      </form>
+    </section>
+
+    <section id="quiz-screen" class="panel hidden" aria-live="polite">
+      <div class="quiz-topline">
+        <div>
+          <p class="eyebrow" id="quiz-meta">GRADE 4 · MEDIUM</p>
+          <h2 id="quiz-title">Question 1</h2>
+        </div>
+        <div id="timer-display" class="timer-pill hidden" aria-live="off">20:00</div>
+      </div>
+      <div class="progress-track"><div id="progress-bar" class="progress-bar"></div></div>
+      <div class="progress-label"><span id="progress-text">Question 1 of 30</span><span id="answered-text">0 answered</span></div>
+      <div class="question-card">
+        <div class="question-tags"><span id="category-tag" class="tag"></span><span id="difficulty-tag" class="tag"></span></div>
+        <p id="passage" class="passage hidden"></p>
+        <h3 id="question-text" class="question-text"></h3>
+        <div id="options" class="options"></div>
+      </div>
+      <div class="quiz-controls">
+        <button id="prev-button" class="secondary-button" type="button">Previous</button>
+        <div class="control-right">
+          <button id="next-button" class="secondary-button" type="button">Next</button>
+          <button id="submit-button" class="primary-button" type="button">Submit quiz</button>
+        </div>
+      </div>
+      <p class="hint">Your answers and explanations will be shown after you submit the quiz.</p>
+    </section>
+
+    <section id="results-screen" class="panel hidden">
+      <div class="results-header">
+        <p class="eyebrow">SESSION COMPLETE</p>
+        <h2>Quiz results</h2>
+        <p id="result-summary" class="muted"></p>
+        <div class="score-card"><strong id="score-number">0/30</strong><span id="score-percent">0%</span></div>
+        <div id="score-breakdown" class="score-breakdown"></div>
+      </div>
+      <div class="results-actions">
+        <button id="retry-button" class="primary-button" type="button">New random quiz</button>
+        <button id="setup-again-button" class="secondary-button" type="button">Change settings</button>
+      </div>
+      <div class="review-heading">
+        <h3>Answer review</h3>
+        <p class="muted">Correct answers and explanations are shown below.</p>
+      </div>
+      <div id="review-list" class="review-list"></div>
+    </section>
+
+    <footer class="site-footer">
+      <p>English Practice Quiz · Supplementary practice for Grades 4–6</p>
+      <p class="muted">Question data is loaded from <code>question-bank.csv</code>.</p>
+    </footer>
+  </main>
+  <script src="app.js"></script>
+</body>
+</html>
