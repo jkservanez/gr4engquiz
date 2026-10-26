@@ -169,14 +169,32 @@ function renderQuestion() {
     text.textContent = value;
     button.append(letter, text);
     button.addEventListener("click", () => {
-      if (state.finished || state.answers[state.index]) return;
-      state.answers[state.index] = key;
+      // Capture the question index before changing the UI. One answer per question.
+      const answeredIndex = state.index;
+      if (state.finished || Object.prototype.hasOwnProperty.call(state.answers, answeredIndex)) return;
+
+      state.answers[answeredIndex] = key;
+      // Re-render immediately so the chosen answer is visibly locked.
       renderQuestion();
+
       if (state.answerMode === "auto") {
         clearTimeout(state.advanceHandle);
-        state.advanceHandle = setTimeout(() => {
-          if (!state.finished && state.answers[state.index]) goNext();
-        }, 300);
+        state.advanceHandle = window.setTimeout(() => {
+          // Ignore a stale callback if the quiz was ended or the question changed.
+          if (state.finished || state.index !== answeredIndex) return;
+
+          if (answeredIndex === state.quiz.length - 1) {
+            finishQuiz(false);
+            return;
+          }
+
+          state.index = answeredIndex + 1;
+          if (state.timerMode === "per-question") {
+            state.questionRemaining = state.questionSeconds;
+            renderTimer(state.questionRemaining);
+          }
+          renderQuestion();
+        }, 500);
       }
     });
     $("options").append(button);
