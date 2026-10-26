@@ -23,9 +23,12 @@ FEATURES
 - Grade 4, Grade 5, Grade 6, or mixed Grades 4–6
 - All, Easy, Medium, or Hard difficulty
 - 10, 20, 30, 40, or 50 randomized questions
+- Answer behavior: auto-advance when an answer is tapped, or manual Next button
+- Selected answers lock immediately and cannot be changed
 - No timer, overall timer, or per-question timer
 - Duration presets: 20-minute Standard, 30-minute Relaxed, 15-minute Fast Paced, 10-minute Speed Challenge
 - Answers and explanations appear after submission
+- Auto-advance mode hides the Next button; End quiz remains separate with confirmation
 - Results include score and difficulty breakdown
 
 TIMER BEHAVIOR

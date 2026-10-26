@@ -59,6 +59,13 @@
             </select>
           </label>
           <label>
+            <span>Answer behavior</span>
+            <select id="answer-mode" required>
+              <option value="auto" selected>Tap answer to continue automatically</option>
+              <option value="manual">Tap answer, then press Next</option>
+            </select>
+          </label>
+          <label>
             <span>Timer mode</span>
             <select id="timer-mode" required>
               <option value="none">No timer</option>
@@ -98,7 +105,7 @@
         <h3 id="question-text" class="question-text"></h3>
         <div id="options" class="options"></div>
       </div>
-      <div class="quiz-controls">
+      <div class="quiz-controls" id="quiz-controls">
         <button id="next-button" class="primary-button" type="button">Next question</button>
       </div>
       <div class="end-quiz-row">

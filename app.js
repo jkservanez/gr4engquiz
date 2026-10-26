@@ -5,6 +5,8 @@ const state = {
   answers: {},
   index: 0,
   timerMode: "none",
+  answerMode: "auto",
+  advanceHandle: null,
   durationSeconds: 1200,
   remainingSeconds: 1200,
   questionSeconds: 0,
@@ -114,6 +116,7 @@ function buildQuiz() {
   state.answers = {};
   state.index = 0;
   state.finished = false;
+  state.answerMode = $("answer-mode").value;
   state.timerMode = $("timer-mode").value;
   state.durationSeconds = Number($("duration").value) * 60;
   state.remainingSeconds = state.durationSeconds;
@@ -158,6 +161,7 @@ function renderQuestion() {
     button.type = "button";
     button.className = `option${selected === key ? " selected" : ""}`;
     button.setAttribute("aria-pressed", selected === key ? "true" : "false");
+    button.disabled = Boolean(selected) || state.finished;
     const letter = document.createElement("span");
     letter.className = "option-letter";
     letter.textContent = key;
@@ -165,12 +169,20 @@ function renderQuestion() {
     text.textContent = value;
     button.append(letter, text);
     button.addEventListener("click", () => {
+      if (state.finished || state.answers[state.index]) return;
       state.answers[state.index] = key;
       renderQuestion();
+      if (state.answerMode === "auto") {
+        clearTimeout(state.advanceHandle);
+        state.advanceHandle = setTimeout(() => {
+          if (!state.finished && state.answers[state.index]) goNext();
+        }, 300);
+      }
     });
     $("options").append(button);
   });
-$("next-button").textContent = state.index === state.quiz.length - 1 ? "Finish questions" : "Next question";
+$("next-button").textContent = state.index === state.quiz.length - 1 ? "Finish quiz" : "Next question";
+  $("quiz-controls").classList.toggle("hidden", state.answerMode === "auto");
   if (state.timerMode === "per-question") {
     state.questionRemaining = Math.min(state.questionRemaining || state.questionSeconds, state.questionSeconds);
     renderTimer(state.questionRemaining);
@@ -216,6 +228,12 @@ function renderTimer(seconds) {
 }
 
 function goNext() {
+  clearTimeout(state.advanceHandle);
+  if (state.finished) return;
+  if (!state.answers[state.index] && state.answerMode === "manual") {
+    alert("Please select an answer before continuing.");
+    return;
+  }
   if (state.index < state.quiz.length - 1) {
     state.index += 1;
     if (state.timerMode === "per-question") state.questionRemaining = state.questionSeconds;
@@ -240,6 +258,7 @@ function confirmEndQuiz() {
 
 function finishQuiz(timeExpired = false) {
   if (state.finished) return;
+  clearTimeout(state.advanceHandle);
   state.finished = true;
   clearInterval(state.timerHandle);
   $("quiz-screen").classList.add("hidden");
@@ -321,6 +340,12 @@ function showSetup() {
 
 $("setup-form").addEventListener("submit", startQuiz);
 $("timer-mode").addEventListener("change", updateTimerSettings);
+$("answer-mode").addEventListener("change", () => {
+  if (!$("quiz-screen").classList.contains("hidden")) {
+    state.answerMode = $("answer-mode").value;
+    renderQuestion();
+  }
+});
 $("question-count").addEventListener("change", updateTimerSettings);
 $("duration").addEventListener("change", updateTimerSettings);
 $("next-button").addEventListener("click", goNext);
