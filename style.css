@@ -110,3 +110,27 @@ code { background: #edf1f6; padding: 2px 5px; border-radius: 5px; }
   .results-actions { flex-direction: column; }
   .results-actions button { width: 100%; }
 }
+
+
+/* One-way quiz navigation and clearly separated end-session action */
+.quiz-controls { display: flex; justify-content: flex-end; align-items: center; margin-top: 20px; }
+#next-button { min-width: 150px; }
+.end-quiz-row { display: flex; justify-content: center; margin-top: 26px; padding-top: 18px; border-top: 1px solid var(--line); }
+.end-quiz-button { color: #9b2525; background: #fff; border: 1px solid #e4a6a6; padding: 10px 20px; }
+.end-quiz-button:hover { background: #fff0ef; }
+.danger-button { background: #b42318; color: #fff; }
+.danger-button:hover { background: #8f1b13; }
+.modal-backdrop { position: fixed; inset: 0; z-index: 1000; display: grid; place-items: center; padding: 18px; background: rgba(12, 22, 39, .58); }
+.confirm-modal { width: min(100%, 430px); padding: 28px; border-radius: 18px; background: #fff; box-shadow: 0 24px 80px rgba(0, 0, 0, .25); text-align: center; }
+.modal-icon { display: grid; place-items: center; width: 46px; height: 46px; margin: 0 auto 14px; border-radius: 50%; background: #fff2dd; color: #8a5a00; font-size: 1.5rem; font-weight: 900; }
+.confirm-modal h2 { margin-bottom: 8px; font-size: 1.45rem; }
+.confirm-modal p { color: var(--muted); margin-bottom: 22px; }
+.modal-actions { display: flex; justify-content: center; gap: 12px; }
+.modal-actions button { min-width: 120px; }
+@media (max-width: 620px) {
+  .quiz-controls { justify-content: stretch; }
+  #next-button { width: 100%; }
+  .end-quiz-row { margin-top: 20px; }
+  .confirm-modal { padding: 23px 18px; }
+  .modal-actions button { min-width: 0; flex: 1; }
+}

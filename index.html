@@ -99,13 +99,12 @@
         <div id="options" class="options"></div>
       </div>
       <div class="quiz-controls">
-        <button id="prev-button" class="secondary-button" type="button">Previous</button>
-        <div class="control-right">
-          <button id="next-button" class="secondary-button" type="button">Next</button>
-          <button id="submit-button" class="primary-button" type="button">Submit quiz</button>
-        </div>
+        <button id="next-button" class="primary-button" type="button">Next question</button>
       </div>
-      <p class="hint">Your answers and explanations will be shown after you submit the quiz.</p>
+      <div class="end-quiz-row">
+        <button id="end-quiz-button" class="end-quiz-button" type="button">End quiz</button>
+      </div>
+      <p class="hint">You cannot return to previous questions. Your answers and explanations will be shown after the quiz ends.</p>
     </section>
 
     <section id="results-screen" class="panel hidden">
@@ -126,6 +125,18 @@
       </div>
       <div id="review-list" class="review-list"></div>
     </section>
+
+    <div id="end-quiz-modal" class="modal-backdrop hidden" role="dialog" aria-modal="true" aria-labelledby="end-modal-title" aria-describedby="end-modal-message">
+      <div class="confirm-modal">
+        <div class="modal-icon" aria-hidden="true">?</div>
+        <h2 id="end-modal-title">End quiz session?</h2>
+        <p id="end-modal-message">Are you sure to end the quiz session?</p>
+        <div class="modal-actions">
+          <button id="cancel-end-button" class="secondary-button" type="button">Cancel</button>
+          <button id="confirm-end-button" class="danger-button" type="button">Yes</button>
+        </div>
+      </div>
+    </div>
 
     <footer class="site-footer">
       <p>English Practice Quiz · Supplementary practice for Grades 4–6</p>

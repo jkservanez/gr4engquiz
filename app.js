@@ -170,8 +170,7 @@ function renderQuestion() {
     });
     $("options").append(button);
   });
-  $("prev-button").disabled = state.index === 0;
-  $("next-button").textContent = state.index === state.quiz.length - 1 ? "Review answers" : "Next";
+$("next-button").textContent = state.index === state.quiz.length - 1 ? "Finish questions" : "Next question";
   if (state.timerMode === "per-question") {
     state.questionRemaining = Math.min(state.questionRemaining || state.questionSeconds, state.questionSeconds);
     renderTimer(state.questionRemaining);
@@ -216,23 +215,27 @@ function renderTimer(seconds) {
   $("timer-display").classList.toggle("danger", safeSeconds <= 30);
 }
 
-function goPrevious() {
-  if (state.index > 0) {
-    state.index -= 1;
-    if (state.timerMode === "per-question") state.questionRemaining = state.questionSeconds;
-    renderQuestion();
-  }
-}
 function goNext() {
   if (state.index < state.quiz.length - 1) {
     state.index += 1;
     if (state.timerMode === "per-question") state.questionRemaining = state.questionSeconds;
     renderQuestion();
   } else {
-    const unanswered = state.quiz.length - Object.keys(state.answers).length;
-    if (unanswered > 0 && !confirm(`You have ${unanswered} unanswered question(s). Submit anyway?`)) return;
-    if (confirm("Finish and submit your quiz? You will see the correct answers and explanations afterward.")) finishQuiz(false);
+    openEndQuizModal();
   }
+}
+
+function openEndQuizModal() {
+  $("end-quiz-modal").classList.remove("hidden");
+  $("confirm-end-button").focus();
+}
+function closeEndQuizModal() {
+  $("end-quiz-modal").classList.add("hidden");
+  $("end-quiz-button").focus();
+}
+function confirmEndQuiz() {
+  closeEndQuizModal();
+  finishQuiz(false);
 }
 
 function finishQuiz(timeExpired = false) {
@@ -320,12 +323,15 @@ $("setup-form").addEventListener("submit", startQuiz);
 $("timer-mode").addEventListener("change", updateTimerSettings);
 $("question-count").addEventListener("change", updateTimerSettings);
 $("duration").addEventListener("change", updateTimerSettings);
-$("prev-button").addEventListener("click", goPrevious);
 $("next-button").addEventListener("click", goNext);
-$("submit-button").addEventListener("click", () => {
-  const unanswered = state.quiz.length - Object.keys(state.answers).length;
-  if (unanswered > 0 && !confirm(`You have ${unanswered} unanswered question(s). Submit anyway?`)) return;
-  if (confirm("Submit this quiz and show your answers and explanations?")) finishQuiz(false);
+$("end-quiz-button").addEventListener("click", openEndQuizModal);
+$("cancel-end-button").addEventListener("click", closeEndQuizModal);
+$("confirm-end-button").addEventListener("click", confirmEndQuiz);
+$("end-quiz-modal").addEventListener("click", (event) => {
+  if (event.target === $("end-quiz-modal")) closeEndQuizModal();
+});
+document.addEventListener("keydown", (event) => {
+  if (event.key === "Escape" && !$("end-quiz-modal").classList.contains("hidden")) closeEndQuizModal();
 });
 $("retry-button").addEventListener("click", () => {
   $("results-screen").classList.add("hidden");

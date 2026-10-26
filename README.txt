@@ -38,3 +38,11 @@ This is a static front-end prototype. Because the browser downloads the CSV, stu
 
 EXPLANATION NOTE
 The Explanation column is a concise, rule-based rationale generated from each question's category and keyed answer. Review and improve the explanations before using them as formal teaching feedback.
+
+
+QUESTION BANK EXPANSION
+- Expanded the bank to 258 distinct question rows.
+- Deduplicated by grade, category, question wording, and passage ID.
+- Difficulty labels are retained or assigned for newly added questions.
+
+Final expansion audit: 990 question rows total. The target is 100 questions per grade in each of the first three categories and 30 reading-comprehension questions per grade.
